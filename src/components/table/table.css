@@ -1,0 +1,193 @@
+.table {
+  --table-border: #d8dee8;
+  --table-fill: #ffffff;
+  --table-header-fill: #f4f7fb;
+  --table-hover-fill: #eef6ff;
+  --table-text: #182230;
+  --table-muted-text: #667085;
+  --table-row-height: 64px;
+
+  color: var(--table-text);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+
+.table__frame {
+  background: var(--table-fill);
+  border: 1px solid var(--table-border);
+  border-radius: 8px;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.table__header {
+  background: var(--table-header-fill);
+  border-bottom: 1px solid var(--table-border);
+}
+
+.table__body {
+  min-height: var(--table-row-height);
+  min-width: 0;
+  overflow: auto;
+  position: relative;
+}
+
+.table__body--virtual {
+  contain: strict;
+}
+
+.table__items {
+  min-width: 0;
+  position: relative;
+  width: 100%;
+}
+
+.table__virtual-item {
+  position: relative;
+  width: 100%;
+}
+
+.table__body--virtual > .table__items > .table__virtual-item {
+  background: var(--table-fill);
+  z-index: 0;
+}
+
+.table__body--virtual > .table__items > .table__virtual-item--expanded {
+  z-index: 1;
+}
+
+.table__body--virtual > .table__items > .table__virtual-item--expanded:focus-within,
+.table__body--virtual > .table__items > .table__virtual-item--expanded:hover {
+  z-index: 2;
+}
+
+.table__row {
+  align-items: stretch;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--table-border);
+  color: inherit;
+  cursor: default;
+  display: grid;
+  font: inherit;
+  min-height: var(--table-row-height);
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.table__row:not(.table__row--header):hover {
+  background: var(--table-hover-fill);
+}
+
+.table__row--header {
+  border-bottom: 0;
+  cursor: default;
+  min-height: 44px;
+}
+
+.table__row--header + .table__row--header {
+  border-top: 1px solid var(--table-border);
+}
+
+.table__cell {
+  align-items: center;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  padding: 12px 14px;
+}
+
+.table__cell--header {
+  color: var(--table-muted-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.table__expanded-row {
+  background: #fbfcfe;
+  border-bottom: 1px solid var(--table-border);
+  padding: 14px;
+}
+
+.table__state {
+  align-items: center;
+  color: var(--table-muted-text);
+  display: flex;
+  justify-content: center;
+  min-height: 96px;
+  padding: 16px;
+  text-align: center;
+}
+
+.table__pagination {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.table__pagination-status {
+  color: var(--table-muted-text);
+  font-size: 14px;
+}
+
+.table__pagination-size {
+  align-items: center;
+  color: var(--table-muted-text);
+  display: flex;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.table__pagination-size select {
+  background: #ffffff;
+  border: 1px solid var(--table-border);
+  border-radius: 6px;
+  color: var(--table-text);
+  font: inherit;
+  height: 34px;
+  padding: 0 8px;
+}
+
+.table__pagination-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.table__pagination-actions button {
+  background: #ffffff;
+  border: 1px solid var(--table-border);
+  border-radius: 6px;
+  color: var(--table-text);
+  cursor: pointer;
+  font: inherit;
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.table__pagination-actions button:disabled,
+.table__pagination-size select:disabled {
+  color: #98a2b3;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@media (max-width: 720px) {
+  .table__cell {
+    padding: 10px;
+  }
+
+  .table__pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -2,7 +2,9 @@
   "url": {
     "title": {
       "/pr/home": "pr - home",
-      "/pu/home": "pu - home"
+      "/pu/home": "pu - home",
+      "/pu/products-pagination": "pu - products pagination",
+      "/pu/products-virtual": "pu - products virtual"
     }
   },
   "pages": {
@@ -17,6 +19,60 @@
     },
     "private-home":{
       "title": "Private Home. Current lng: {{currentLng}}"
+    },
+    "table-demo": {
+      "availability": "Availability",
+      "brand": "Brand",
+      "category": "Category",
+      "collapse": "Collapse row",
+      "comment": "Comment",
+      "date": "Date",
+      "detailsAction": "Details",
+      "dialogClose": "Close dialog",
+      "detailsLoading": "Loading product details",
+      "dimensions": "Dimensions",
+      "discount": "Discount",
+      "email": "Email",
+      "empty": "No products found",
+      "expand": "Expand row",
+      "factsTitle": "Product facts",
+      "fetching": "Loading more products",
+      "field": "Field",
+      "firstPage": "First",
+      "imageFullscreen": "Fullscreen",
+      "imageNext": "Next image",
+      "imagePrevious": "Previous image",
+      "imageSelect": "Select image",
+      "imagesTitle": "Images",
+      "lastPage": "Last",
+      "metrics": "Metrics",
+      "minimumOrder": "Minimum order",
+      "nextPage": "Next",
+      "noDetails": "Details are not loaded",
+      "noReviews": "No reviews",
+      "pageStatus": "{{page}} / {{pageCount}}",
+      "paginationSubtitle": "A controlled table with external page and page-size state.",
+      "paginationTitle": "Products with Pagination",
+      "previousPage": "Prev",
+      "price": "Price",
+      "product": "Product",
+      "rating": "Rating",
+      "returnPolicy": "Return policy",
+      "reviewer": "Reviewer",
+      "reviewsTitle": "Reviews",
+      "rowsPerPage": "Rows",
+      "shipping": "Shipping",
+      "showPagination": "Pagination",
+      "showVirtual": "Virtual scroll",
+      "sku": "SKU",
+      "stock": "Stock",
+      "tags": "Tags",
+      "value": "Value",
+      "warranty": "Warranty",
+      "weight": "Weight",
+      "virtualCounter": "{{loaded}} of {{total}} products loaded",
+      "virtualSubtitle": "A virtualized infinite table that fetches the next page while scrolling.",
+      "virtualTitle": "Virtualized Infinite Scrolling"
     }
   },
   "boundary": {

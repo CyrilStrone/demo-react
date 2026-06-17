@@ -38,11 +38,11 @@ export function LayoutPublic() {
       </Stack>
       <Stack
         sx={{
-          width: '400px',
+          width: 'min(1180px, 100%)',
           flexDirection: 'column',
-          gap: '45px',
+          gap: '24px',
           alignItems: 'stretch',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           flexGrow: 1,
           maxWidth: '-webkit-fill-available',
           paddingBottom: '38px',

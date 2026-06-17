@@ -5,6 +5,8 @@ import { LayoutPublic } from '@local/layouts/layout-public';
 import { LayoutRoot } from '@local/layouts/layout-root';
 import { PagePrivateHome } from '@local/pages/private/home';
 import { PagePublicHome } from '@local/pages/public/home';
+import { PageProductsPagination } from '@local/pages/public/products-pagination';
+import { PageProductsVirtual } from '@local/pages/public/products-virtual';
 
 import { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, createRoute, createRouter, Navigate, redirect } from '@tanstack/react-router';
@@ -62,9 +64,23 @@ export const PageRoutePublicHome = createRoute({
   path: '/home',
 });
 
+export const PageRouteProductsVirtual = createRoute({
+  getParentRoute: () => LayoutRoutePublic,
+  component: PageProductsVirtual,
+  path: '/products-virtual',
+});
+
+export const PageRouteProductsPagination = createRoute({
+  getParentRoute: () => LayoutRoutePublic,
+  component: PageProductsPagination,
+  path: '/products-pagination',
+});
+
 const routeTree = LayoutRouteRoot.addChildren({
   LayoutRoutePublic: LayoutRoutePublic.addChildren({
     PageRoutePublicHome,
+    PageRouteProductsPagination,
+    PageRouteProductsVirtual,
   }),
   LayoutRoutePrivate: LayoutRoutePrivate.addChildren({
     PageRoutePrivateHome,

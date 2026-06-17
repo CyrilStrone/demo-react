@@ -1,38 +1,94 @@
-{
-  "url": {
-    "title": {
-      "/pr/home": "pr - home",
-      "/pu/home": "pu - home"
-    }
-  },
-  "pages":{
-    "private": {
-      "title": "Приватная страница"
-    },
-    "public": {
-      "title": "Публичная страница"
-    },
-    "public-home":{
-      "title": "Публичная страница. Выбран язык: {{currentLng}}"
-    },
-    "private-home":{
-      "title": "Приватная страница. Выбран язык: {{currentLng}}"
-    }
-  },
-  "boundary": {
-    "title-1": "Произошла неизвестная ошибка",
-    "title-2": "Пожалуйста, попробуйте позже",
-    "title-button": "Перезагрузить страницу"
-  },
-  "meta": {
-    "description": "Meta: ru, meta - description"
-  },
-  "sonner": {
-    "undo": "sonner - undo"
-  },
-  "form": {
-    "language": {
-      "placeholder": "Выберите язык"
-    }
-  }
+﻿{
+    "url":  {
+                "title":  {
+                              "/pr/home":  "pr - home",
+                              "/pu/home":  "pu - home",
+                              "/pu/products-pagination":  "pu - products pagination",
+                              "/pu/products-virtual":  "pu - products virtual"
+                          }
+            },
+    "pages":  {
+                  "private":  {
+                                  "title":  "Приватная страница"
+                              },
+                  "public":  {
+                                 "title":  "Публичная страница"
+                             },
+                  "public-home":  {
+                                      "title":  "Публичная страница. Выбран язык: {{currentLng}}"
+                                  },
+                  "private-home":  {
+                                       "title":  "Приватная страница. Выбран язык: {{currentLng}}"
+                                   },
+                  "table-demo":  {
+                                     "availability":  "Наличие",
+                                     "brand":  "Бренд",
+                                     "category":  "Категория",
+                                     "collapse":  "Свернуть строку",
+                                     "comment":  "Комментарий",
+                                     "date":  "Дата",
+                                     "detailsAction":  "Подробнее",
+                                     "dialogClose":  "Закрыть окно",
+                                     "detailsLoading":  "Загрузка деталей продукта",
+                                     "dimensions":  "Размеры",
+                                     "discount":  "Скидка",
+                                     "email":  "Email",
+                                     "empty":  "Продукты не найдены",
+                                     "expand":  "Раскрыть строку",
+                                     "factsTitle":  "Свойства продукта",
+                                     "fetching":  "Загрузка следующих продуктов",
+                                     "field":  "Поле",
+                                     "firstPage":  "Первая",
+                                     "imageFullscreen":  "На весь экран",
+                                     "imageNext":  "Следующее изображение",
+                                     "imagePrevious":  "Предыдущее изображение",
+                                     "imageSelect":  "Выбрать изображение",
+                                     "imagesTitle":  "Изображения",
+                                     "lastPage":  "Последняя",
+                                     "metrics":  "Показатели",
+                                     "minimumOrder":  "Минимальный заказ",
+                                     "nextPage":  "Следующая",
+                                     "noDetails":  "Детали не загружены",
+                                     "noReviews":  "Отзывов нет",
+                                     "pageStatus":  "{{page}} / {{pageCount}}",
+                                     "paginationSubtitle":  "Управляемая таблица с внешним состоянием страницы и размера страницы.",
+                                     "paginationTitle":  "Продукты с пагинацией",
+                                     "previousPage":  "Назад",
+                                     "price":  "Цена",
+                                     "product":  "Продукт",
+                                     "rating":  "Рейтинг",
+                                     "returnPolicy":  "Возврат",
+                                     "reviewer":  "Автор",
+                                     "reviewsTitle":  "Отзывы",
+                                     "rowsPerPage":  "Строк",
+                                     "shipping":  "Доставка",
+                                     "showPagination":  "Пагинация",
+                                     "showVirtual":  "Виртуальный скролл",
+                                     "sku":  "SKU",
+                                     "stock":  "Остаток",
+                                     "tags":  "Теги",
+                                     "value":  "Значение",
+                                     "warranty":  "Гарантия",
+                                     "weight":  "Вес",
+                                     "virtualCounter":  "Загружено {{loaded}} из {{total}} продуктов",
+                                     "virtualSubtitle":  "Виртуализированная бесконечная таблица догружает следующую страницу при скролле.",
+                                     "virtualTitle":  "Virtualized Infinite Scrolling"
+                                 }
+              },
+    "boundary":  {
+                     "title-1":  "Произошла неизвестная ошибка",
+                     "title-2":  "Пожалуйста, попробуйте позже",
+                     "title-button":  "Перезагрузить страницу"
+                 },
+    "meta":  {
+                 "description":  "Meta: ru, meta - description"
+             },
+    "sonner":  {
+                   "undo":  "sonner - undo"
+               },
+    "form":  {
+                 "language":  {
+                                  "placeholder":  "Выберите язык"
+                              }
+             }
 }
