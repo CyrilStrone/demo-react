@@ -1,0 +1,38 @@
+{
+  "url": {
+    "title": {
+      "/pr/home": "pr - home",
+      "/pu/home": "pu - home"
+    }
+  },
+  "pages": {
+    "private": {
+      "title": "Private Page"
+    },
+    "public": {
+      "title": "Public Page"
+    },
+    "public-home":{
+      "title": "Public Home. Current lng: {{currentLng}}"
+    },
+    "private-home":{
+      "title": "Private Home. Current lng: {{currentLng}}"
+    }
+  },
+  "boundary": {
+    "title-1": "An unknown error occurred",
+    "title-2": "Please try again later",
+    "title-button": "Reload page"
+  },
+  "meta": {
+    "description": "Meta: en, meta - description"
+  },
+  "sonner": {
+    "undo": "sonner - undo"
+  },
+  "form": {
+    "language": {
+      "placeholder": "Choose language"
+    }
+  }
+}

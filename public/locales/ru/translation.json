@@ -1,0 +1,38 @@
+{
+  "url": {
+    "title": {
+      "/pr/home": "pr - home",
+      "/pu/home": "pu - home"
+    }
+  },
+  "pages":{
+    "private": {
+      "title": "Приватная страница"
+    },
+    "public": {
+      "title": "Публичная страница"
+    },
+    "public-home":{
+      "title": "Публичная страница. Выбран язык: {{currentLng}}"
+    },
+    "private-home":{
+      "title": "Приватная страница. Выбран язык: {{currentLng}}"
+    }
+  },
+  "boundary": {
+    "title-1": "Произошла неизвестная ошибка",
+    "title-2": "Пожалуйста, попробуйте позже",
+    "title-button": "Перезагрузить страницу"
+  },
+  "meta": {
+    "description": "Meta: ru, meta - description"
+  },
+  "sonner": {
+    "undo": "sonner - undo"
+  },
+  "form": {
+    "language": {
+      "placeholder": "Выберите язык"
+    }
+  }
+}
