@@ -71,7 +71,7 @@ Mode-specific files currently present:
 
 - `.env.dev`
 - `.env.prod`
-- `.env.test`
+- `.env.stage`
 
 Base variables are defined in `.env`.
 
