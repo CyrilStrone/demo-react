@@ -5,8 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_DEFAULT_NAME_SHORT: string;
   readonly VITE_DEFAULT_THEME_COLOR: string;
   readonly VITE_BASE_PATH: string;
-  readonly VITE_BASE_URL: string;
-  readonly VITE_SOCKET_URL: string;
+  readonly VITE_API_URL: string;
+  readonly VITE_API_SOCKET_URL: string;
   readonly VITE_AVAILABILITY_COOKIE_NAME: string;
   readonly VITE_CORE_URL: string;
   readonly VITE_NODE_ENV: 'dev' | 'prod' | 'stage';

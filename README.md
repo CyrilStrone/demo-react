@@ -82,8 +82,8 @@ Base variables are defined in `.env`.
 | `VITE_DEFAULT_NAME_SHORT` | Short application name. |
 | `VITE_DEFAULT_THEME_COLOR` | Theme and background color used by the PWA manifest. |
 | `VITE_BASE_PATH` | Public base path for Vite assets, HTML icons, TanStack Router, PWA scope, and start URL. |
-| `VITE_BASE_URL` | Main API base URL. |
-| `VITE_SOCKET_URL` | WebSocket URL. |
+| `VITE_API_URL` | Main API base URL. |
+| `VITE_API_SOCKET_URL` | WebSocket URL. |
 | `VITE_CORE_URL` | Core domain value used by the app. |
 | `VITE_AVAILABILITY_COOKIE_NAME` | Cookie name used for auth availability checks. |
 | `VITE_NODE_ENV` | Runtime environment name used by application code. |

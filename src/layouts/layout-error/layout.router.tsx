@@ -6,9 +6,9 @@ import { CatchBoundary, useRouter } from '@tanstack/react-router';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { LayoutErrorRouterProps } from './layout.types';
+import { ILayoutErrorRouter } from './layout.types';
 
-export function LayoutErrorRouter(): ReactElement<LayoutErrorRouterProps> {
+export function LayoutErrorRouter(): ReactElement<ILayoutErrorRouter> {
   const router = useRouter();
   const { t: tBoundary } = useTranslation('translation', { keyPrefix: 'boundary' });
 

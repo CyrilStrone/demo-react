@@ -15,7 +15,7 @@ export default defineConfig(({ command, mode }) => {
   const VITE_DEFAULT_NAME_SHORT = env.VITE_DEFAULT_NAME_SHORT;
   const VITE_DEFAULT_THEME_COLOR = env.VITE_DEFAULT_THEME_COLOR;
   const VITE_DEFAULT_DESCRIPTION = env.VITE_DEFAULT_DESCRIPTION;
-  const VITE_BASE_URL = env.VITE_BASE_URL;
+  const VITE_API_URL = env.VITE_API_URL;
   const VITE_APP_VERSION = env.VITE_APP_VERSION || 'unknown';
   const VITE_OUTPUT_DIR = env.VITE_OUTPUT_DIR || 'build';
   const VITE_BASE_PATH = env.VITE_BASE_PATH || '/';
@@ -108,7 +108,7 @@ export default defineConfig(({ command, mode }) => {
           cleanupOutdatedCaches: true,
           runtimeCaching: [
             {
-              urlPattern: new RegExp(`^${VITE_BASE_URL}/.*$`),
+              urlPattern: new RegExp(`^${VITE_API_URL}/.*$`),
               handler: 'NetworkOnly',
             },
             {

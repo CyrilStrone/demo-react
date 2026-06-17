@@ -5,9 +5,9 @@ const nameShort = import.meta.env.VITE_DEFAULT_NAME_SHORT;
 const themeColor = import.meta.env.VITE_DEFAULT_THEME_COLOR;
 const mode = import.meta.env.VITE_NODE_ENV;
 const basePath = import.meta.env.BASE_URL;
-const baseURL = import.meta.env.VITE_BASE_URL;
+const apiURL = import.meta.env.VITE_API_URL;
 const coreURL = import.meta.env.VITE_CORE_URL;
-const socketURL = import.meta.env.VITE_SOCKET_URL;
+const apiSocketURL = import.meta.env.VITE_API_SOCKET_URL;
 const cookieNameAccessToken = import.meta.env.VITE_AVAILABILITY_COOKIE_NAME;
 const queryStaleTime = import.meta.env.VITE_QUERY_STALE_TIME;
 
@@ -19,9 +19,9 @@ export const env = {
   themeColor,
   mode,
   basePath,
-  baseURL,
+  apiURL,
   coreURL,
-  socketURL,
+  apiSocketURL,
   cookieNameAccessToken,
   queryStaleTime,
 };

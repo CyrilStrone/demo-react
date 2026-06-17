@@ -3,10 +3,10 @@ import { logger } from '@local/core/logger';
 import { Typography } from '@jenesei-software/jenesei-kit-react/component-typography';
 import React, { Component } from 'react';
 
-import { LayoutErrorBoundaryProps, LayoutErrorBoundaryState } from './layout.types';
+import { ILayoutErrorBoundary, ILayoutErrorBoundaryState } from './layout.types';
 
-export class LayoutErrorBoundary extends Component<LayoutErrorBoundaryProps, LayoutErrorBoundaryState> {
-  constructor(props: LayoutErrorBoundaryProps) {
+export class LayoutErrorBoundary extends Component<ILayoutErrorBoundary, ILayoutErrorBoundaryState> {
+  constructor(props: ILayoutErrorBoundary) {
     super(props);
     this.state = { hasError: false, error: null };
   }

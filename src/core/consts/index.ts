@@ -1,5 +1,5 @@
-import { transformObjectToArray } from '../functions';
-import { ILanguage } from '../types';
+import { transformObjectToArray } from '@local/core/functions';
+import { ILanguage } from '@local/core/types';
 
 export const OBJECT_LANGUAGE: ILanguage = {
   en: {
