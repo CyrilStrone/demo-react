@@ -1,218 +1,246 @@
+import { useAxios } from '@local/contexts/context-axios/context';
+import { QUERY_KEYS, queryClient } from '@local/core/query';
+import { ICustomMutationFn } from '@local/core/types';
+
+import { infiniteQueryOptions, keepPreviousData, queryOptions, useMutation } from '@tanstack/react-query';
+
+import { productsApi } from './api';
 import {
-  infiniteQueryOptions,
-  keepPreviousData,
-  queryOptions,
-  useMutation
-} from '@tanstack/react-query'
+  IAddProductRequest,
+  IDeleteProductRequest,
+  IDeletedProduct,
+  IGetProductRequest,
+  IGetProductsByCategoryRequest,
+  IGetProductsRequest,
+  IProduct,
+  IProductCategory,
+  IProductCategorySlug,
+  IProductsListResponse,
+  ISearchProductsRequest,
+  IUpdateProductRequest,
+} from './api.types';
 
+const DEFAULT_PRODUCTS_LIMIT = 30;
 
-import {
-  deleteObjectIdDeleteRequest,
-  getObjectIdGetRequest,
-  getProjectIdObjectListRequest,
-  postProjectIdObjectAddRequest,
-  postProjectIdObjectExportExcelFileRequest,
-  postProjectIdObjectUploadRequest,
-  projectObjectApi,
-  putObjectIdUpdateRequest
-} from '.'
-import { useAxios } from '@local/contexts/context-axios/context'
+const invalidateProductsCollections = () => {
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.list],
+  });
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.infiniteList],
+  });
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.search],
+  });
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.byCategory],
+  });
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.categories],
+  });
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.categoryList],
+  });
+};
 
-export const useObjectList = (props: getProjectIdObjectListRequest) => {
-  const { axiosInstance } = useAxios(['axiosInstance'])
+const invalidateProductDetail = (id?: number) => {
+  if (!id) return;
 
-  return infiniteQueryOptions({
-    queryKey: [queryKeys.projectObject.list, props.query, props.path.id],
-    initialPageParam: props.query.offset,
-    placeholderData: keepPreviousData,
-    queryFn: ({ pageParam }) =>
-      projectObjectApi(axiosInstance)
-        .getProjectIdObjectList({
-          query: {
-            limit: props.query.limit,
-            offset: pageParam,
-            query: props.query.query,
-            onlyWithVolumes: props.query.onlyWithVolumes
-          },
-          path: { id: props.path.id }
-        })
-        .then(res => res.data),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.data.length === props.query.limit
-        ? allPages.length * props.query.limit
-        : undefined
-  })
-}
+  queryClient.invalidateQueries({
+    queryKey: [QUERY_KEYS.dummy.products.detail, id],
+  });
+};
 
-export const useObjectAdd = (
-  options?: ICustomMutationFn<
-    ObjectResponse,
-    postProjectIdObjectAddRequest
-  >
-) => {
-  const { axiosInstance } = useAxios()
-  return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance)
-        .postProjectIdObjectAdd(payload)
-        .then(res => res.data),
-    ...options,
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.list]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.object]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.full]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.kit]
-      })
-    }
-  })
-}
-
-export const useObjectId = (props: getObjectIdGetRequest) => {
-  const { axiosInstance } = useAxios()
+export const useProductsList = <TProduct extends Partial<IProduct> = IProduct>(props: IGetProductsRequest = {}) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
 
   return queryOptions({
-    queryKey: [queryKeys.projectObject.id, props.path.id],
+    placeholderData: keepPreviousData,
     queryFn: () =>
-      projectObjectApi(axiosInstance)
-        .getObjectIdGet(props)
-        .then(res => res.data)
-  })
-}
+      productsApi(axiosInstance)
+        .getProducts<TProduct>(props)
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.list, props.query],
+  });
+};
 
-export const useObjectIdFetch = () => {
-  const { axiosInstance } = useAxios()
-
-  return async (props: getObjectIdGetRequest) => {
-    return queryClient.fetchQuery({
-      queryKey: [queryKeys.projectObject.id, props.path.id],
-      queryFn: async () =>
-        projectObjectApi(axiosInstance)
-          .getObjectIdGet(props)
-          .then(res => res.data)
-    })
-  }
-}
-
-export const useObjectUpdate = (
-  options?: ICustomMutationFn<ObjectResponse, putObjectIdUpdateRequest>
+export const useProductsInfiniteList = <TProduct extends Partial<IProduct> = IProduct>(
+  props: IGetProductsRequest = {},
 ) => {
-  const { axiosInstance } = useAxios()
-  return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance)
-        .putObjectIdGet(payload)
-        .then(res => res.data),
-    ...options,
-    onSettled: data => {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.id, data?.data?.id]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.list]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.full]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.kit]
-      })
-    }
-  })
-}
+  const { axiosInstance } = useAxios(['axiosInstance']);
+  const limit = props.query?.limit ?? DEFAULT_PRODUCTS_LIMIT;
+  const skip = props.query?.skip ?? 0;
 
-export const useObjectDelete = (
-  options?: ICustomMutationFn<
-    ObjectResponse,
-    deleteObjectIdDeleteRequest
-  >
-) => {
-  const { axiosInstance } = useAxios()
-  return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance)
-        .deleteObjectIdGet(payload)
-        .then(res => res.data),
-    ...options,
-    onSettled: data => {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.list]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.id, data?.data?.id]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.object]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.full]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.kit]
-      })
-    }
-  })
-}
+  return infiniteQueryOptions({
+    getNextPageParam: (lastPage: IProductsListResponse<TProduct>) => {
+      if (lastPage.limit === 0) return undefined;
 
-export const useObjectImport = (
-  options?: ICustomMutationFn<
-    UploadExcelResult,
-    postProjectIdObjectUploadRequest
-  >
-) => {
-  const { axiosInstance } = useAxios()
-  return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance)
-        .postProjectIdObjectUpload(payload)
-        .then(res => res.data),
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.projectObject.list]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.object]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.full]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [queryKeys.sidebarProject.kit]
-      })
+      const nextSkip = lastPage.skip + lastPage.limit;
+
+      return nextSkip < lastPage.total ? nextSkip : undefined;
     },
-    ...options
-  })
-}
+    initialPageParam: skip,
+    placeholderData: keepPreviousData,
+    queryFn: ({ pageParam }) =>
+      productsApi(axiosInstance)
+        .getProducts<TProduct>({
+          query: {
+            ...props.query,
+            limit,
+            skip: pageParam,
+          },
+        })
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.infiniteList, props.query],
+  });
+};
 
-export const useObjectExport = (
-  options?: ICustomMutationFn<
-    void,
-    postProjectIdObjectExportExcelFileRequest
-  >
-) => {
-  const { axiosInstance } = useAxios()
-  return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance).postProjectIdObjectExportExcelFile(
-        payload
-      ),
-    ...options
-  })
-}
+export const useProduct = (props: IGetProductRequest) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
 
-export const useObjectExample = (
-  options?: ICustomMutationFn<void, UniversalLinkExample>
+  return queryOptions({
+    queryFn: () =>
+      productsApi(axiosInstance)
+        .getProduct(props)
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.detail, props.path.id],
+  });
+};
+
+export const useProductFetch = () => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return async (props: IGetProductRequest) => {
+    return queryClient.fetchQuery({
+      queryFn: () =>
+        productsApi(axiosInstance)
+          .getProduct(props)
+          .then((res) => res.data),
+      queryKey: [QUERY_KEYS.dummy.products.detail, props.path.id],
+    });
+  };
+};
+
+export const useProductsSearch = <TProduct extends Partial<IProduct> = IProduct>(props: ISearchProductsRequest) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return queryOptions({
+    placeholderData: keepPreviousData,
+    queryFn: () =>
+      productsApi(axiosInstance)
+        .searchProducts<TProduct>(props)
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.search, props.query],
+  });
+};
+
+export const useProductsCategories = () => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return queryOptions({
+    queryFn: () =>
+      productsApi(axiosInstance)
+        .getProductsCategories()
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.categories],
+  });
+};
+
+export const useProductsCategoryList = () => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return queryOptions({
+    queryFn: () =>
+      productsApi(axiosInstance)
+        .getProductsCategoryList()
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.categoryList],
+  });
+};
+
+export const useProductsByCategory = <TProduct extends Partial<IProduct> = IProduct>(
+  props: IGetProductsByCategoryRequest,
 ) => {
-  const { axiosInstance } = useAxios()
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return queryOptions({
+    placeholderData: keepPreviousData,
+    queryFn: () =>
+      productsApi(axiosInstance)
+        .getProductsByCategory<TProduct>(props)
+        .then((res) => res.data),
+    queryKey: [QUERY_KEYS.dummy.products.byCategory, props.path.category, props.query],
+  });
+};
+
+export const useProductAdd: ICustomMutationFn<IProduct, IAddProductRequest> = (options) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
   return useMutation({
-    mutationFn: payload =>
-      projectObjectApi(axiosInstance).getProjectIdObjectLinkExample(payload),
-    ...options
-  })
-}
+    ...options,
+    mutationFn: (payload) =>
+      productsApi(axiosInstance)
+        .addProduct(payload)
+        .then((res) => res.data),
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      options?.onSettled?.(data, error, variables, onMutateResult, context);
+      invalidateProductsCollections();
+      invalidateProductDetail(data?.id);
+    },
+  });
+};
+
+export const useProductUpdate: ICustomMutationFn<IProduct, IUpdateProductRequest> = (options) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return useMutation({
+    ...options,
+    mutationFn: (payload) =>
+      productsApi(axiosInstance)
+        .updateProduct(payload)
+        .then((res) => res.data),
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      options?.onSettled?.(data, error, variables, onMutateResult, context);
+      invalidateProductsCollections();
+      invalidateProductDetail(data?.id ?? variables.path.id);
+    },
+  });
+};
+
+export const useProductPatch: ICustomMutationFn<IProduct, IUpdateProductRequest> = (options) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return useMutation({
+    ...options,
+    mutationFn: (payload) =>
+      productsApi(axiosInstance)
+        .patchProduct(payload)
+        .then((res) => res.data),
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      options?.onSettled?.(data, error, variables, onMutateResult, context);
+      invalidateProductsCollections();
+      invalidateProductDetail(data?.id ?? variables.path.id);
+    },
+  });
+};
+
+export const useProductDelete: ICustomMutationFn<IDeletedProduct, IDeleteProductRequest> = (options) => {
+  const { axiosInstance } = useAxios(['axiosInstance']);
+
+  return useMutation({
+    ...options,
+    mutationFn: (payload) =>
+      productsApi(axiosInstance)
+        .deleteProduct(payload)
+        .then((res) => res.data),
+    onSettled: (data, error, variables, onMutateResult, context) => {
+      options?.onSettled?.(data, error, variables, onMutateResult, context);
+      invalidateProductsCollections();
+      invalidateProductDetail(data?.id ?? variables.path.id);
+    },
+  });
+};
+
+export type IProductsCategoriesQueryData = IProductCategory[];
+
+export type IProductsCategoryListQueryData = IProductCategorySlug[];

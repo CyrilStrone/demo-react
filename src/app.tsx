@@ -1,3 +1,4 @@
+import { ProviderAxios } from '@local/contexts/context-axios';
 import { ProviderLanguage } from '@local/contexts/context-language';
 import { ProviderPWA } from '@local/contexts/context-pwa';
 import { queryClient } from '@local/core/query';
@@ -16,15 +17,17 @@ function App() {
       <ProviderLanguage>
         <LayoutErrorBoundary>
           <QueryClientProvider client={queryClient}>
-            <ProviderPermission>
-              <ProviderGeolocation>
-                <ProviderDialog zIndex={1000}>
-                  <ProviderPWA>
-                    <LayoutRouter />
-                  </ProviderPWA>
-                </ProviderDialog>
-              </ProviderGeolocation>
-            </ProviderPermission>
+            <ProviderAxios>
+              <ProviderPermission>
+                <ProviderGeolocation>
+                  <ProviderDialog zIndex={1000}>
+                    <ProviderPWA>
+                      <LayoutRouter />
+                    </ProviderPWA>
+                  </ProviderDialog>
+                </ProviderGeolocation>
+              </ProviderPermission>
+            </ProviderAxios>
           </QueryClientProvider>
         </LayoutErrorBoundary>
       </ProviderLanguage>

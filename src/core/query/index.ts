@@ -21,6 +21,14 @@ export const queryClient = new QueryClient({
 
 export const QUERY_KEYS = {
   dummy: {
-
-  }
+    products: {
+      byCategory: 'dummy.products.byCategory',
+      categories: 'dummy.products.categories',
+      categoryList: 'dummy.products.categoryList',
+      detail: 'dummy.products.detail',
+      infiniteList: 'dummy.products.infiniteList',
+      list: 'dummy.products.list',
+      search: 'dummy.products.search',
+    },
+  },
 } as const;

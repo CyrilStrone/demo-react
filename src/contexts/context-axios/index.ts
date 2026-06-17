@@ -1,1 +1,1 @@
-export { ProviderLanguage, useLanguage } from './context';
+export { ProviderAxios, useAxios } from './context';
