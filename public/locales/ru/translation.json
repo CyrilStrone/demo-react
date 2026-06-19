@@ -1,25 +1,12 @@
 ﻿{
     "url":  {
                 "title":  {
-                              "/pr/home":  "pr - home",
-                              "/pu/home":  "pu - home",
-                              "/pu/products-pagination":  "pu - products pagination",
-                              "/pu/products-virtual":  "pu - products virtual"
+                              "/home":  "home",
+                              "/products-pagination":  "products pagination",
+                              "/products-virtual":  "products virtual"
                           }
             },
     "pages":  {
-                  "private":  {
-                                  "title":  "Приватная страница"
-                              },
-                  "public":  {
-                                 "title":  "Публичная страница"
-                             },
-                  "public-home":  {
-                                      "title":  "Публичная страница. Выбран язык: {{currentLng}}"
-                                  },
-                  "private-home":  {
-                                       "title":  "Приватная страница. Выбран язык: {{currentLng}}"
-                                   },
                   "table-demo":  {
                                      "availability":  "Наличие",
                                      "brand":  "Бренд",

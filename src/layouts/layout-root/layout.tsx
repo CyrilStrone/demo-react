@@ -1,14 +1,16 @@
+import { SelectLanguage } from '@local/components/select-language';
 import { usePWA } from '@local/contexts/context-pwa';
 import { ProviderValidation } from '@local/contexts/context-validation';
 import { env } from '@local/core/envs';
 import { tableString } from '@local/core/functions';
 import { logger } from '@local/core/logger';
-import { LayoutRoutePrivate, LayoutRoutePublic } from '@local/core/router';
 
+import { Stack } from '@jenesei-software/jenesei-kit-react/component-stack';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Outlet, useMatches, useNavigate } from '@tanstack/react-router';
+import { Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
+import { Button } from '@jenesei-software/jenesei-kit-react';
 
 export function LayoutRoot() {
   const pwa = usePWA([
@@ -49,42 +51,73 @@ export function LayoutRoot() {
 }
 
 const LayoutRootComponent = () => {
-  const isAuthenticated = useMemo(() => false, []);
-
-  const navigate = useNavigate();
-
-  const isMatchPrivate = useMatches({
-    select(matches) {
-      return matches.some((match) => match.fullPath === LayoutRoutePrivate.fullPath);
-    },
-  });
-  const isMatchPublic = useMatches({
-    select(matches) {
-      return matches.some((match) => match.fullPath === LayoutRoutePublic.fullPath);
-    },
-  });
-
-  useEffect(() => {
-    if (isAuthenticated !== undefined) {
-      if (isMatchPrivate) {
-        if (!isAuthenticated) navigate({ to: '/pu' });
-      } else if (isMatchPublic) {
-        if (isAuthenticated) navigate({ to: '/pr' });
-      }
-    }
-  }, [isAuthenticated, isMatchPrivate, isMatchPublic, navigate]);
-
   const pwa = usePWA(['updateApp', 'resetAppCache', 'isUpdateAvailable']);
 
   return (
-    <div>
-      <Outlet />
-      <button disabled={!pwa.isUpdateAvailable} type='button' onClick={pwa.updateApp}>
-        Update App
-      </button>
-      <button type='button' onClick={pwa.resetAppCache}>
-        Reset App Cache
-      </button>
-    </div>
+    <Stack
+      sx={{
+        flexDirection: 'column',
+        flexGrow: 1,
+        overflow: 'auto',
+        padding: '20px',
+      }}
+    >
+      <Stack
+        sx={{
+          justifyContent: 'flex-end',
+          width: '100%',
+        }}
+      >
+        <SelectLanguage
+          isShowDropdownOptionIcon
+          isOnClickOptionClose
+          isStayValueAfterSelect
+          isToggleWhenClickSelectListOption
+          genre='primary'
+          size='medium'
+          style={{
+            width: '120px',
+          }}
+        />
+      </Stack>
+
+      <Stack
+        sx={{
+          alignItems: 'stretch',
+          flexDirection: 'column',
+          flexGrow: 1,
+          gap: '24px',
+          justifyContent: 'flex-start',
+          maxWidth: '-webkit-fill-available',
+          paddingBottom: '38px',
+          width: 'min(1180px, 100%)',
+        }}
+      >
+        <Outlet />
+      </Stack>
+      <Stack
+        sx={{
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          gap: '24px',
+        }}
+      >
+        <Button
+          isDisabled={!pwa.isUpdateAvailable}
+          isHidden={!pwa.isUpdateAvailable}
+          genre='primary'
+          size='medium'
+          onClick={pwa.updateApp}
+          type='button'
+        >
+          Update App
+        </Button>
+
+        <Button genre='primary' size='medium' onClick={pwa.resetAppCache} type='button'>
+          Reset App Cache
+        </Button>
+      </Stack>
+    </Stack>
   );
 };

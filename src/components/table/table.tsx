@@ -14,6 +14,7 @@ import { createContext, useContextSelector } from 'use-context-selector';
 import { ITableProps } from './table.types';
 
 import './table.css';
+import { Button } from '@jenesei-software/jenesei-kit-react';
 
 interface ITableMeasureContext {
   requestMeasure: () => void;
@@ -373,34 +374,45 @@ export function Table<TData extends object>(props: ITableProps<TData>) {
               </select>
             </label>
             <div className='table__pagination-actions'>
-              <button
-                disabled={pagination.isDisabled || pagination.pageIndex === 0}
+              <Button
+                isDisabled={pagination.isDisabled || pagination.pageIndex === 0}
+                isHidden={pagination.isDisabled || pagination.pageIndex === 0}
+                genre='primary'
+                size='medium'
                 onClick={() => pagination.onPageChange(0)}
-                type='button'
               >
                 {paginationText.firstPage}
-              </button>
-              <button
-                disabled={pagination.isDisabled || pagination.pageIndex === 0}
+              </Button>
+
+              <Button
+                isDisabled={pagination.isDisabled || pagination.pageIndex === 0}
+                isHidden={pagination.isDisabled || pagination.pageIndex === 0}
+                genre='primary'
+                size='medium'
                 onClick={() => pagination.onPageChange(pagination.pageIndex - 1)}
                 type='button'
               >
                 {paginationText.previousPage}
-              </button>
-              <button
-                disabled={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+              </Button>
+              <Button
+                isDisabled={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+                isHidden={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+                genre='primary'
+                size='medium'
                 onClick={() => pagination.onPageChange(pagination.pageIndex + 1)}
                 type='button'
               >
                 {paginationText.nextPage}
-              </button>
-              <button
-                disabled={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+              </Button>
+              <Button
+                isDisabled={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+                isHidden={pagination.isDisabled || pagination.pageIndex >= pageCount - 1}
+                genre='primary'
+                size='medium'
                 onClick={() => pagination.onPageChange(pageCount - 1)}
-                type='button'
               >
                 {paginationText.lastPage}
-              </button>
+              </Button>
             </div>
           </div>
         )}

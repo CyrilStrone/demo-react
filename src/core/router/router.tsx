@@ -1,15 +1,12 @@
 import { env } from '@local/core/envs';
 import { LayoutErrorRouter } from '@local/layouts/layout-error';
-import { LayoutPrivate } from '@local/layouts/layout-private';
-import { LayoutPublic } from '@local/layouts/layout-public';
 import { LayoutRoot } from '@local/layouts/layout-root';
-import { PagePrivateHome } from '@local/pages/private/home';
-import { PagePublicHome } from '@local/pages/public/home';
-import { PageProductsPagination } from '@local/pages/public/products-pagination';
-import { PageProductsVirtual } from '@local/pages/public/products-virtual';
+import { PageHome } from '@local/pages/home';
+import { PageProductsPagination } from '@local/pages/products-pagination';
+import { PageProductsVirtual } from '@local/pages/products-virtual';
 
 import { QueryClient } from '@tanstack/react-query';
-import { createRootRouteWithContext, createRoute, createRouter, Navigate, redirect } from '@tanstack/react-router';
+import { createRootRouteWithContext, createRoute, createRouter, Navigate } from '@tanstack/react-router';
 
 import { validateLayoutRouteRootSearch } from './router.search';
 
@@ -21,70 +18,38 @@ export const LayoutRouteRoot = createRootRouteWithContext<IContext>()({
   component: LayoutRoot,
   validateSearch: validateLayoutRouteRootSearch,
   errorComponent: LayoutErrorRouter,
-  notFoundComponent: () => <Navigate to={LayoutRoutePublic.fullPath} />,
+  notFoundComponent: () => <Navigate to='/home' />,
 });
 
-export const LayoutRoutePrivate = createRoute({
+export const PageRouteHome = createRoute({
   getParentRoute: () => LayoutRouteRoot,
-  component: LayoutPrivate,
-  notFoundComponent: () => <Navigate to={PageRoutePrivateHome.fullPath} />,
-  path: '/pr',
-  beforeLoad: (props) => {
-    const isFirst = props.location.pathname === '/pr';
-    if (isFirst)
-      throw redirect({
-        to: '/pr/home',
-      });
-  },
-});
-
-export const LayoutRoutePublic = createRoute({
-  getParentRoute: () => LayoutRouteRoot,
-  component: LayoutPublic,
-  notFoundComponent: () => <Navigate to={PageRoutePublicHome.fullPath} />,
-  path: '/pu',
-  beforeLoad: (props) => {
-    const isFirst = props.location.pathname === '/pu';
-    if (isFirst)
-      throw redirect({
-        to: '/pu/home',
-      });
-  },
-});
-
-export const PageRoutePrivateHome = createRoute({
-  getParentRoute: () => LayoutRoutePrivate,
-  component: PagePrivateHome,
+  component: PageHome,
   path: '/home',
 });
 
-export const PageRoutePublicHome = createRoute({
-  getParentRoute: () => LayoutRoutePublic,
-  component: PagePublicHome,
-  path: '/home',
+export const PageRouteIndex = createRoute({
+  getParentRoute: () => LayoutRouteRoot,
+  component: () => <Navigate to={PageRouteHome.fullPath} />,
+  path: '/',
 });
 
 export const PageRouteProductsVirtual = createRoute({
-  getParentRoute: () => LayoutRoutePublic,
+  getParentRoute: () => LayoutRouteRoot,
   component: PageProductsVirtual,
   path: '/products-virtual',
 });
 
 export const PageRouteProductsPagination = createRoute({
-  getParentRoute: () => LayoutRoutePublic,
+  getParentRoute: () => LayoutRouteRoot,
   component: PageProductsPagination,
   path: '/products-pagination',
 });
 
 const routeTree = LayoutRouteRoot.addChildren({
-  LayoutRoutePublic: LayoutRoutePublic.addChildren({
-    PageRoutePublicHome,
-    PageRouteProductsPagination,
-    PageRouteProductsVirtual,
-  }),
-  LayoutRoutePrivate: LayoutRoutePrivate.addChildren({
-    PageRoutePrivateHome,
-  }),
+  PageRouteHome,
+  PageRouteIndex,
+  PageRouteProductsPagination,
+  PageRouteProductsVirtual,
 });
 
 export const router = createRouter({

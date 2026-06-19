@@ -5,7 +5,7 @@ import {
   useProductColumns,
   useProductDetailsCache,
   useProductTableLabels,
-} from '@local/pages/public/table-demo/products-table.shared';
+} from '@local/pages/table-demo/products-table.shared';
 
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
@@ -42,10 +42,10 @@ export function PageProductsPagination() {
 
       <div className='table-demo__toolbar'>
         <nav className='table-demo__nav'>
-          <Link className='table-demo__nav-link' to='/pu/products-virtual'>
+          <Link className='table-demo__nav-link' to='/products-virtual'>
             {t('pages.table-demo.showVirtual')}
           </Link>
-          <Link className='table-demo__nav-link' to='/pu/products-pagination'>
+          <Link className='table-demo__nav-link' to='/products-pagination'>
             {t('pages.table-demo.showPagination')}
           </Link>
         </nav>

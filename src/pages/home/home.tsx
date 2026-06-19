@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import '../table-demo/table-demo.css';
 
-export function PagePublicHome() {
+export function PageHome() {
   const { t } = useTranslation('translation');
 
   return (
@@ -16,10 +16,10 @@ export function PagePublicHome() {
     >
       {t('meta.description')}
       <nav className='table-demo__nav'>
-        <Link className='table-demo__nav-link' to='/pu/products-virtual'>
+        <Link className='table-demo__nav-link' to='/products-virtual'>
           {t('pages.table-demo.showVirtual')}
         </Link>
-        <Link className='table-demo__nav-link' to='/pu/products-pagination'>
+        <Link className='table-demo__nav-link' to='/products-pagination'>
           {t('pages.table-demo.showPagination')}
         </Link>
       </nav>

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { IUseDialog } from '@jenesei-software/jenesei-kit-react/context-dialog';
 
 import './table-demo.css';
+import { Button } from '@jenesei-software/jenesei-kit-react';
 
 export interface IProductTableLabels {
   availability: string;
@@ -165,50 +166,76 @@ function ProductImagesDialogContent(props: {
 
   return (
     <article className='table-demo__images-dialog'>
-      <button aria-label={labels.dialogClose} className='table-demo__dialog-close' onClick={remove} type='button'>
-        x
-      </button>
-
       <div className='table-demo__images-stage'>
         {images.length > 1 && (
-          <button
-            aria-label={labels.imagePrevious}
-            className='table-demo__images-arrow table-demo__images-arrow--previous'
+          <Button
+            genre='primary'
+            size='medium'
             onClick={selectPreviousImage}
-            type='button'
-          >
-            {'<'}
-          </button>
+            isFullRadius
+            isOnlyIcon
+            isWidthAsHeight
+            className='table-demo__images-arrow table-demo__images-arrow--previous'
+            icons={[
+              {
+                type: 'id',
+                name: 'Arrow1',
+              },
+            ]}
+          />
         )}
         <img className='table-demo__images-main' src={selectedImage} alt={productTitle} />
         {images.length > 1 && (
-          <button
-            aria-label={labels.imageNext}
-            className='table-demo__images-arrow table-demo__images-arrow--next'
+          <Button
+            genre='primary'
+            size='medium'
             onClick={selectNextImage}
-            type='button'
-          >
-            {'>'}
-          </button>
+            isFullRadius
+            isOnlyIcon
+            isWidthAsHeight
+            className='table-demo__images-arrow table-demo__images-arrow--next'
+            icons={[
+              {
+                type: 'id',
+                name: 'Arrow1',
+              },
+            ]}
+          />
         )}
       </div>
-
+      <Button
+        genre='primary'
+        size='medium'
+        onClick={remove}
+        isFullRadius
+        isOnlyIcon
+        isWidthAsHeight
+        className='table-demo__dialog-close'
+        icons={[
+          {
+            type: 'id',
+            name: 'Arrow1',
+          },
+        ]}
+      />
       <div className='table-demo__images-preview-list'>
         {images.map((image, index) => (
-          <button
-            aria-label={`${labels.imageSelect}: ${index + 1}`}
+          <Button
+            ariaLabel={`${labels.imageSelect}: ${index + 1}`}
+            key={image}
+            genre='primary'
+            size='medium'
+            isWidthAsHeight
+            onClick={() => setSelectedImageIndex(index)}
             className={[
               'table-demo__images-preview-button',
               index === selectedImageIndex ? 'table-demo__images-preview-button--active' : undefined,
             ]
               .filter(Boolean)
               .join(' ')}
-            key={image}
-            onClick={() => setSelectedImageIndex(index)}
-            type='button'
           >
             <img src={image} alt={`${productTitle} ${index + 1}`} />
-          </button>
+          </Button>
         ))}
       </div>
     </article>
@@ -244,16 +271,42 @@ function ProductDetailsDialogBody(props: { labels: IProductTableLabels; product:
 
   return (
     <article className='table-demo__dialog'>
-      <button aria-label={labels.dialogClose} className='table-demo__dialog-close' onClick={remove} type='button'>
-        x
-      </button>
+      <Button
+        ariaLabel={labels.dialogClose}
+        genre='primary'
+        size='medium'
+        onClick={remove}
+        isFullRadius
+        isOnlyIcon
+        isWidthAsHeight
+        className='table-demo__dialog-close'
+        icons={[
+          {
+            type: 'id',
+            name: 'Close',
+          },
+        ]}
+      />
 
       <div className='table-demo__dialog-visual'>
         <img className='table-demo__dialog-image' src={selectedImage} alt={product.title} />
         {productImages.length > 0 && (
-          <button className='table-demo__dialog-fullscreen' onClick={openImagesDialog} type='button'>
-            {labels.imageFullscreen}
-          </button>
+          <Button
+            ariaLabel={labels.imageFullscreen}
+            genre='primary'
+            size='medium'
+            onClick={openImagesDialog}
+            isFullRadius
+            isOnlyIcon
+            isWidthAsHeight
+            className='table-demo__dialog-fullscreen'
+            icons={[
+              {
+                type: 'id',
+                name: 'Show',
+              },
+            ]}
+          />
         )}
       </div>
 
@@ -329,8 +382,10 @@ function ProductDetailsDialogBody(props: { labels: IProductTableLabels; product:
         {productImages.length > 1 && (
           <div className='table-demo__dialog-gallery'>
             {productImages.map((image, index) => (
-              <button
-                aria-label={`${labels.imageSelect}: ${index + 1}`}
+              <Button
+                genre='primary'
+                size='medium'
+                ariaLabel={`${labels.imageSelect}: ${index + 1}`}
                 className={[
                   'table-demo__dialog-gallery-button',
                   index === selectedImageIndex ? 'table-demo__dialog-gallery-button--active' : undefined,
@@ -340,9 +395,10 @@ function ProductDetailsDialogBody(props: { labels: IProductTableLabels; product:
                 key={image}
                 onClick={() => setSelectedImageIndex(index)}
                 type='button'
+                isWidthAsHeight
               >
                 <img src={image} alt={`${product.title} ${index + 1}`} />
-              </button>
+              </Button>
             ))}
           </div>
         )}
@@ -444,7 +500,7 @@ function ProductDetailsButton(props: { labels: IProductTableLabels; product: IPr
       },
       propsDialog: {
         borderRadius: '10px',
-        isRemoveOnOutsideClick: false,
+        isRemoveOnOutsideClick: true,
         maxHeight: 'calc(100dvh - 48px)',
         maxWidth: '980px',
         padding: '0',
@@ -455,17 +511,27 @@ function ProductDetailsButton(props: { labels: IProductTableLabels; product: IPr
   const { add: openProductDetails } = useDialog(propsDialog);
 
   return (
-    <button
-      aria-label={`${labels.detailsAction}: ${product.title}`}
+    <Button
+      genre='primary'
+      size='medium'
+      isWidthAsHeight
+      isOnlyIcon
+      isFullRadius
+      ariaLabel={`${labels.detailsAction}: ${product.title}`}
       className='table-demo__details-button'
       onClick={(event) => {
         event.stopPropagation();
         openProductDetails();
       }}
-      type='button'
+      icons={[
+        {
+          type: 'id',
+          name: 'Document',
+        },
+      ]}
     >
       i
-    </button>
+    </Button>
   );
 }
 
@@ -539,10 +605,15 @@ export const useProductColumns = (
           const isExpanded = row.getIsExpanded();
 
           return (
-            <button
-              aria-label={isExpanded ? labels.collapse : labels.expand}
+            <Button
+              genre='primary'
+              size='medium'
+              isWidthAsHeight
+              isOnlyIcon
+              isFullRadius
+              ariaLabel={isExpanded ? labels.collapse : labels.expand}
               className='table-demo__expand-button'
-              disabled={isLoading}
+              isDisabled={isLoading}
               onClick={(event) => {
                 event.stopPropagation();
                 if (isExpanded) {
@@ -555,9 +626,20 @@ export const useProductColumns = (
                   .catch(() => undefined);
               }}
               type='button'
-            >
-              {isLoading ? '...' : isExpanded ? 'v' : '>'}
-            </button>
+              icons={[
+                {
+                  type: 'id',
+                  name: 'Arrow1',
+                  turn: isExpanded ? 180 : 0,
+                  isHidden: isLoading,
+                },
+                {
+                  type: 'loading',
+                  name: 'Line',
+                  isHidden: !isLoading,
+                },
+              ]}
+            />
           );
         },
         header: '',
@@ -708,17 +790,27 @@ export function ProductExpandedContent(props: {
           const isExpanded = row.getIsExpanded();
 
           return (
-            <button
-              aria-label={isExpanded ? labels.collapse : labels.expand}
+            <Button
+              genre='primary'
+              size='medium'
+              isWidthAsHeight
+              isOnlyIcon
+              isFullRadius
+              ariaLabel={isExpanded ? labels.collapse : labels.expand}
               className='table-demo__expand-button table-demo__expand-button--small'
               onClick={(event) => {
                 event.stopPropagation();
                 row.toggleExpanded();
               }}
               type='button'
-            >
-              {isExpanded ? 'v' : '>'}
-            </button>
+              icons={[
+                {
+                  type: 'id',
+                  name: 'Arrow1',
+                  turn: isExpanded ? 180 : 0,
+                },
+              ]}
+            />
           );
         },
         header: '',

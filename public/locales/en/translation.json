@@ -1,25 +1,12 @@
 {
   "url": {
     "title": {
-      "/pr/home": "pr - home",
-      "/pu/home": "pu - home",
-      "/pu/products-pagination": "pu - products pagination",
-      "/pu/products-virtual": "pu - products virtual"
+      "/home": "home",
+      "/products-pagination": "products pagination",
+      "/products-virtual": "products virtual"
     }
   },
   "pages": {
-    "private": {
-      "title": "Private Page"
-    },
-    "public": {
-      "title": "Public Page"
-    },
-    "public-home":{
-      "title": "Public Home. Current lng: {{currentLng}}"
-    },
-    "private-home":{
-      "title": "Private Home. Current lng: {{currentLng}}"
-    },
     "table-demo": {
       "availability": "Availability",
       "brand": "Brand",

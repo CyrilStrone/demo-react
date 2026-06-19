@@ -1075,10 +1075,10 @@
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-9.0.0.tgz#4d0a3f127058043bf2e7ee169eaf30ed901302f3"
   integrity sha512-AokJm4tuBHillT+FpMtxQ60n8ObyXBatq7jD2/JA9dxbDDokKQm8KMht5ibGzLVU9IJDIKK4TPKgMHEYMn3lMg==
 
-"@jenesei-software/jenesei-kit-react@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@jenesei-software/jenesei-kit-react/-/jenesei-kit-react-2.2.1.tgz#ed8ca09ae71e8cab8c626dd4d8ef2c985307bf30"
-  integrity sha512-8Ot5K1ZdlEE5m9geFCSpOVK+6PM4+DGzdw5y10zMDfuzqfJS4tduexiRU8MYA/B66DzqzIysCnDo+52G5KQY8g==
+"@jenesei-software/jenesei-kit-react@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@jenesei-software/jenesei-kit-react/-/jenesei-kit-react-2.2.2.tgz#7f1b153e795866278df5c27804bf9e14c7dd3440"
+  integrity sha512-W8sNTGVYnYR+MUnx/SCvovpjdgJxu5RVccXVzValxXbmt3OmHfY7dAVEPJFshDfivAYsTzr6ReuGqZt7f8UwAA==
   dependencies:
     "@floating-ui/react" "^0.27.12"
     "@jenesei-software/jenesei-library-log" "^2.0.0"
@@ -1543,12 +1543,26 @@
     "@tanstack/store" "0.9.3"
     use-sync-external-store "^1.6.0"
 
-"@tanstack/react-virtual@^3.10.8", "@tanstack/react-virtual@^3.13.8":
+"@tanstack/react-table@^8.21.3":
+  version "8.21.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.21.3.tgz#2c38c747a5731c1a07174fda764b9c2b1fb5e91b"
+  integrity sha512-5nNMTSETP4ykGegmVkhjcS8tTLW6Vl4axfEGQN3v0zdHYbK4UfoqfPChclTrJ4EoK9QynqAu9oUf8VEmrpZ5Ww==
+  dependencies:
+    "@tanstack/table-core" "8.21.3"
+
+"@tanstack/react-virtual@^3.10.8":
   version "3.13.24"
   resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.24.tgz#77af3d5dcf77358d805b7b3b06d3221af7bd3f6f"
   integrity sha512-aIJvz5OSkhNIhZIpYivrxrPTKYsjW9Uzy+sP/mx0S3sev2HyvPb7xmjbYvokzEpfgYHy/HjzJ2zFAETuUfgCpg==
   dependencies:
     "@tanstack/virtual-core" "3.14.0"
+
+"@tanstack/react-virtual@^3.14.3":
+  version "3.14.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.14.3.tgz#433f1bc1e1c12c80244847988385222f65744ffc"
+  integrity sha512-k/cnHPVaOfn46hSbiY6n4Dzf4QjCGWSF40zR5QIIYUqPAjpA6TN7InfYmcMiDVQGP2iUn9xsRbAl8u1v3UmeVQ==
+  dependencies:
+    "@tanstack/virtual-core" "3.17.1"
 
 "@tanstack/router-core@1.169.2":
   version "1.169.2"
@@ -1583,10 +1597,20 @@
   resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.7.tgz#2c8b1d8c094f3614ae4e0483253239abd0e14488"
   integrity sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==
 
+"@tanstack/table-core@8.21.3":
+  version "8.21.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.21.3.tgz#2977727d8fc8dfa079112d9f4d4c019110f1732c"
+  integrity sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==
+
 "@tanstack/virtual-core@3.14.0":
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.14.0.tgz#c8839d0d702b8af47c0e57d4ab72fc3ba8bbf3da"
   integrity sha512-JLANqGy/D6k4Ujmh8Tr25lGimuOXNiaVyXaCAZS0W+1390sADdGnyUdSWNIfd49gebtIxGMij4IktRVzrdr12Q==
+
+"@tanstack/virtual-core@3.17.1":
+  version "3.17.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.17.1.tgz#4f57146d1c27ce7ee973f1af7fe948a139a51d79"
+  integrity sha512-VZyW2Uiml5tmBZwPGrSD3Sz73OxzljQMCmzYHsUTPEuTsERf5xwa+uWb01xEzkz3ZSYTjj8NEb/mKHvgKxyZdA==
 
 "@tanstack/yup-form-adapter@^0.42.1":
   version "0.42.1"
