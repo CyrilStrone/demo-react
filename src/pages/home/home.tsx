@@ -1,5 +1,5 @@
 import { Stack } from '@jenesei-software/jenesei-kit-react/component-stack';
-import { Link } from '@tanstack/react-router';
+import { ButtonLink } from '@local/components/link';
 import { useTranslation } from 'react-i18next';
 
 import '../table-demo/table-demo.css';
@@ -16,12 +16,12 @@ export function PageHome() {
     >
       {t('meta.description')}
       <nav className='table-demo__nav'>
-        <Link className='table-demo__nav-link' to='/products-virtual'>
+        <ButtonLink className='table-demo__nav-link' to='/products-virtual' genre={'primary'} size={'small'}>
           {t('pages.table-demo.showVirtual')}
-        </Link>
-        <Link className='table-demo__nav-link' to='/products-pagination'>
+        </ButtonLink>
+        <ButtonLink className='table-demo__nav-link' to='/products-pagination' genre={'primary'} size={'small'}>
           {t('pages.table-demo.showPagination')}
-        </Link>
+        </ButtonLink>
       </nav>
     </Stack>
   );

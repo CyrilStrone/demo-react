@@ -1,14 +1,14 @@
 import { Table } from '@local/components/table';
 import { IProduct, IProductReview, useProductFetch } from '@local/hooks/api/products';
 
+import { Button } from '@jenesei-software/jenesei-kit-react';
 import { useDialog } from '@jenesei-software/jenesei-kit-react/context-dialog';
-import { ColumnDef } from '@tanstack/react-table';
-import { useCallback, useMemo, useState } from 'react';
+import { ColumnDef, Row } from '@tanstack/react-table';
+import { MouseEvent, memo, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { IUseDialog } from '@jenesei-software/jenesei-kit-react/context-dialog';
 
 import './table-demo.css';
-import { Button } from '@jenesei-software/jenesei-kit-react';
 
 export interface IProductTableLabels {
   availability: string;
@@ -489,7 +489,7 @@ function ProductReviewExpandedTable(props: {
   );
 }
 
-function ProductDetailsButton(props: { labels: IProductTableLabels; product: IProduct }) {
+const ProductDetailsButton = memo((props: { labels: IProductTableLabels; product: IProduct }) => {
   const { labels, product } = props;
   const propsDialog = useMemo<IUseDialog<IProductDetailsDialogProps>>(
     () => ({
@@ -509,6 +509,23 @@ function ProductDetailsButton(props: { labels: IProductTableLabels; product: IPr
     [labels, product],
   );
   const { add: openProductDetails } = useDialog(propsDialog);
+  const icons = useMemo(
+    () => [
+      {
+        type: 'id' as const,
+        name: 'Document' as const,
+      },
+    ],
+    [],
+  );
+
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      openProductDetails();
+    },
+    [openProductDetails],
+  );
 
   return (
     <Button
@@ -519,21 +536,114 @@ function ProductDetailsButton(props: { labels: IProductTableLabels; product: IPr
       isFullRadius
       ariaLabel={`${labels.detailsAction}: ${product.title}`}
       className='table-demo__details-button'
-      onClick={(event) => {
-        event.stopPropagation();
-        openProductDetails();
-      }}
-      icons={[
-        {
-          type: 'id',
-          name: 'Document',
-        },
-      ]}
+      onClick={handleClick}
+      icons={icons}
     >
       i
     </Button>
   );
-}
+});
+ProductDetailsButton.displayName = 'ProductDetailsButton';
+
+const ProductExpandButton = memo(
+  (props: {
+    isExpanded: boolean;
+    isLoading: boolean;
+    labels: IProductTableLabels;
+    loadProduct: (id: number) => Promise<void>;
+    row: Row<IProduct>;
+  }) => {
+    const { isExpanded, isLoading, labels, loadProduct, row } = props;
+    const icons = useMemo(
+      () => [
+        {
+          type: 'id' as const,
+          name: 'Arrow1' as const,
+          turn: isExpanded ? 180 : 0,
+          isHidden: isLoading,
+        },
+        {
+          type: 'loading' as const,
+          name: 'Line' as const,
+          isHidden: !isLoading,
+        },
+      ],
+      [isExpanded, isLoading],
+    );
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (isExpanded) {
+          row.toggleExpanded(false);
+          return;
+        }
+
+        void loadProduct(row.original.id)
+          .then(() => row.toggleExpanded(true))
+          .catch(() => undefined);
+      },
+      [isExpanded, loadProduct, row],
+    );
+
+    return (
+      <Button
+        genre='primary'
+        size='medium'
+        isWidthAsHeight
+        isOnlyIcon
+        isFullRadius
+        ariaLabel={isExpanded ? labels.collapse : labels.expand}
+        className='table-demo__expand-button'
+        isDisabled={isLoading}
+        onClick={handleClick}
+        type='button'
+        icons={icons}
+      />
+    );
+  },
+);
+ProductExpandButton.displayName = 'ProductExpandButton';
+
+const ProductReviewExpandButton = memo(
+  (props: { isExpanded: boolean; labels: IProductTableLabels; row: Row<IProductReviewRow> }) => {
+    const { isExpanded, labels, row } = props;
+    const icons = useMemo(
+      () => [
+        {
+          type: 'id' as const,
+          name: 'Arrow1' as const,
+          turn: isExpanded ? 180 : 0,
+        },
+      ],
+      [isExpanded],
+    );
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        row.toggleExpanded();
+      },
+      [row],
+    );
+
+    return (
+      <Button
+        genre='primary'
+        size='medium'
+        isWidthAsHeight
+        isOnlyIcon
+        isFullRadius
+        ariaLabel={isExpanded ? labels.collapse : labels.expand}
+        className='table-demo__expand-button table-demo__expand-button--small'
+        onClick={handleClick}
+        type='button'
+        icons={icons}
+      />
+    );
+  },
+);
+ProductReviewExpandButton.displayName = 'ProductReviewExpandButton';
 
 export const useProductDetailsCache = () => {
   const fetchProduct = useProductFetch();
@@ -541,18 +651,26 @@ export const useProductDetailsCache = () => {
     data: {},
     loading: {},
   });
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
   const loadProduct = useCallback(
     async (id: number) => {
-      if (state.data[id] || state.loading[id]) return;
+      if (stateRef.current.data[id] || stateRef.current.loading[id]) return;
 
-      setState((currentState) => ({
-        ...currentState,
-        loading: {
-          ...currentState.loading,
-          [id]: true,
-        },
-      }));
+      setState((currentState) => {
+        const nextState = {
+          ...currentState,
+          loading: {
+            ...currentState.loading,
+            [id]: true,
+          },
+        };
+
+        stateRef.current = nextState;
+
+        return nextState;
+      });
 
       try {
         const product = await fetchProduct({
@@ -561,28 +679,40 @@ export const useProductDetailsCache = () => {
           },
         });
 
-        setState((currentState) => ({
-          data: {
-            ...currentState.data,
-            [id]: product,
-          },
-          loading: {
-            ...currentState.loading,
-            [id]: false,
-          },
-        }));
+        setState((currentState) => {
+          const nextState = {
+            data: {
+              ...currentState.data,
+              [id]: product,
+            },
+            loading: {
+              ...currentState.loading,
+              [id]: false,
+            },
+          };
+
+          stateRef.current = nextState;
+
+          return nextState;
+        });
       } catch (error) {
-        setState((currentState) => ({
-          ...currentState,
-          loading: {
-            ...currentState.loading,
-            [id]: false,
-          },
-        }));
+        setState((currentState) => {
+          const nextState = {
+            ...currentState,
+            loading: {
+              ...currentState.loading,
+              [id]: false,
+            },
+          };
+
+          stateRef.current = nextState;
+
+          return nextState;
+        });
         throw error;
       }
     },
-    [fetchProduct, state.data, state.loading],
+    [fetchProduct],
   );
 
   return {
@@ -597,48 +727,22 @@ export const useProductColumns = (
   loadProduct: (id: number) => Promise<void>,
   isDetailsLoadingById: Record<number, boolean | undefined>,
 ) => {
+  const isDetailsLoadingByIdRef = useRef(isDetailsLoadingById);
+  isDetailsLoadingByIdRef.current = isDetailsLoadingById;
+
   return useMemo<ColumnDef<IProduct, unknown>[]>(
     () => [
       {
         cell: ({ row }) => {
-          const isLoading = Boolean(isDetailsLoadingById[row.original.id]);
           const isExpanded = row.getIsExpanded();
 
           return (
-            <Button
-              genre='primary'
-              size='medium'
-              isWidthAsHeight
-              isOnlyIcon
-              isFullRadius
-              ariaLabel={isExpanded ? labels.collapse : labels.expand}
-              className='table-demo__expand-button'
-              isDisabled={isLoading}
-              onClick={(event) => {
-                event.stopPropagation();
-                if (isExpanded) {
-                  row.toggleExpanded(false);
-                  return;
-                }
-
-                void loadProduct(row.original.id)
-                  .then(() => row.toggleExpanded(true))
-                  .catch(() => undefined);
-              }}
-              type='button'
-              icons={[
-                {
-                  type: 'id',
-                  name: 'Arrow1',
-                  turn: isExpanded ? 180 : 0,
-                  isHidden: isLoading,
-                },
-                {
-                  type: 'loading',
-                  name: 'Line',
-                  isHidden: !isLoading,
-                },
-              ]}
+            <ProductExpandButton
+              isExpanded={isExpanded}
+              isLoading={Boolean(isDetailsLoadingByIdRef.current[row.original.id])}
+              labels={labels}
+              loadProduct={loadProduct}
+              row={row}
             />
           );
         },
@@ -719,7 +823,7 @@ export const useProductColumns = (
         },
       },
     ],
-    [isDetailsLoadingById, labels, loadProduct],
+    [labels, loadProduct],
   );
 };
 
@@ -789,29 +893,7 @@ export function ProductExpandedContent(props: {
         cell: ({ row }) => {
           const isExpanded = row.getIsExpanded();
 
-          return (
-            <Button
-              genre='primary'
-              size='medium'
-              isWidthAsHeight
-              isOnlyIcon
-              isFullRadius
-              ariaLabel={isExpanded ? labels.collapse : labels.expand}
-              className='table-demo__expand-button table-demo__expand-button--small'
-              onClick={(event) => {
-                event.stopPropagation();
-                row.toggleExpanded();
-              }}
-              type='button'
-              icons={[
-                {
-                  type: 'id',
-                  name: 'Arrow1',
-                  turn: isExpanded ? 180 : 0,
-                },
-              ]}
-            />
-          );
+          return <ProductReviewExpandButton isExpanded={isExpanded} labels={labels} row={row} />;
         },
         header: '',
         id: 'expander',
@@ -842,7 +924,7 @@ export function ProductExpandedContent(props: {
         },
       },
     ],
-    [labels.collapse, labels.comment, labels.expand, labels.rating, labels.reviewer],
+    [labels],
   );
 
   if (isLoading) {

@@ -1075,10 +1075,10 @@
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-9.0.0.tgz#4d0a3f127058043bf2e7ee169eaf30ed901302f3"
   integrity sha512-AokJm4tuBHillT+FpMtxQ60n8ObyXBatq7jD2/JA9dxbDDokKQm8KMht5ibGzLVU9IJDIKK4TPKgMHEYMn3lMg==
 
-"@jenesei-software/jenesei-kit-react@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@jenesei-software/jenesei-kit-react/-/jenesei-kit-react-2.2.2.tgz#7f1b153e795866278df5c27804bf9e14c7dd3440"
-  integrity sha512-W8sNTGVYnYR+MUnx/SCvovpjdgJxu5RVccXVzValxXbmt3OmHfY7dAVEPJFshDfivAYsTzr6ReuGqZt7f8UwAA==
+"@jenesei-software/jenesei-kit-react@2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@jenesei-software/jenesei-kit-react/-/jenesei-kit-react-2.3.4.tgz#986d75f9f6e7771da5d06facfe247998e75bc49a"
+  integrity sha512-16AujrLRnkHTooTw45r6I98fRY+7ajnktH8sTT7YG46vZ4aBr+P9aCqCACuJoj5uBRFpMON21Awwry2fClLLuw==
   dependencies:
     "@floating-ui/react" "^0.27.12"
     "@jenesei-software/jenesei-library-log" "^2.0.0"

@@ -5,12 +5,14 @@ import { env } from '@local/core/envs';
 import { tableString } from '@local/core/functions';
 import { logger } from '@local/core/logger';
 
+import { Button } from '@jenesei-software/jenesei-kit-react';
 import { Stack } from '@jenesei-software/jenesei-kit-react/component-stack';
+import { ButtonLink } from '@local/components/link';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useEffect } from 'react';
-import { Button } from '@jenesei-software/jenesei-kit-react';
+import { useTranslation } from 'react-i18next';
 
 export function LayoutRoot() {
   const pwa = usePWA([
@@ -52,7 +54,7 @@ export function LayoutRoot() {
 
 const LayoutRootComponent = () => {
   const pwa = usePWA(['updateApp', 'resetAppCache', 'isUpdateAvailable']);
-
+  const { t } = useTranslation('translation');
   return (
     <Stack
       sx={{
@@ -80,7 +82,54 @@ const LayoutRootComponent = () => {
           }}
         />
       </Stack>
+      <Stack
+        sx={{
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          gap: '24px',
+        }}
+      >
+        <Stack
+          sx={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            gap: '24px',
+          }}
+        >
+          <ButtonLink className='table-demo__nav-link' to='/products-virtual' genre={'primary'} size={'medium'}>
+            {t('pages.table-demo.showVirtual')}
+          </ButtonLink>
+          <ButtonLink className='table-demo__nav-link' to='/products-pagination' genre={'primary'} size={'medium'}>
+            {t('pages.table-demo.showPagination')}
+          </ButtonLink>
+        </Stack>
 
+        <Stack
+          sx={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            gap: '24px',
+          }}
+        >
+          <Button
+            isDisabled={!pwa.isUpdateAvailable}
+            isHidden={!pwa.isUpdateAvailable}
+            genre='primary'
+            size='medium'
+            onClick={pwa.updateApp}
+            type='button'
+          >
+            Update App
+          </Button>
+
+          <Button genre='primary' size='medium' onClick={pwa.resetAppCache} type='button'>
+            Reset App Cache
+          </Button>
+        </Stack>
+      </Stack>
       <Stack
         sx={{
           alignItems: 'stretch',
@@ -94,29 +143,6 @@ const LayoutRootComponent = () => {
         }}
       >
         <Outlet />
-      </Stack>
-      <Stack
-        sx={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          gap: '24px',
-        }}
-      >
-        <Button
-          isDisabled={!pwa.isUpdateAvailable}
-          isHidden={!pwa.isUpdateAvailable}
-          genre='primary'
-          size='medium'
-          onClick={pwa.updateApp}
-          type='button'
-        >
-          Update App
-        </Button>
-
-        <Button genre='primary' size='medium' onClick={pwa.resetAppCache} type='button'>
-          Reset App Cache
-        </Button>
       </Stack>
     </Stack>
   );
